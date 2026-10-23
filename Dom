@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .highlight {
+            background-color: yellow;
+        }
+
+        .box {
+            border: 1px solid gray;
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="main-title">Learning DOM Time!</h1>
+
+    <!--This paragraph has a class name "info".-->
+    <p class="info">These are my favorite fruits.</p>
+    <p class="info">Can you tell me what are yours?</p>
+
+    <div id="container" class="box">
+        <p>Answer here:</p>
+    </div>
+
+    <ul id="fruits" class="box">
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Mango</li>
+    </ul>
+
+    <button id="action-btn">Click Me</button>
+
+    <script>
+        const title = document.getElementById("main-title");
+        console.log("By ID:", title);
+        title.style.color = "blue";
+
+        const infoElements = document.getElementsByClassName("info");
+        console.log("By Class Name:", infoElements);
+        infoElements[1].style.fontWeight = "bold";
+
+        const paragraphs = document.getElementsByTagName("p");
+        console.log("By Tag Name:", paragraphs);
+        paragraphs[1].style.color = "green";
+
+        const container = document.querySelector("#fruits");
+        console.log("By querySelector:", container);
+        container.style.backgroundColor = "#e0f7fa";
+
+        const fruitItems = document.querySelectorAll("#fruits li");
+        console.log("By querySelectorAll:", fruitItems);
+        fruitItems.forEach(item => {
+            item.style.listStyleType = "square";
+        });
+
+        title.innerHTML = "DOM Access Demo Complete!";
+
+        const newPara = document.createElement("p");
+        newPara.textContent = "We Know what you did last Summer";
+        document.body.appendChild(newPara);
+
+        // <p> We Know what you did last Summer </p>
+
+        const button = document.getElementById("action-btn");
+        button.addEventListener("click", function() {
+            title.classList.toggle("highlight");
+            alert("Button clicked! Title highlighted.");
+        });
+    </script>
+
+</body>
+</html>
