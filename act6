@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding-top: 50px;
+        }
+
+        #pics {
+            width: 580px;
+            height: 450px;
+            object-fit: fill;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        #pics:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h2 id="heading">press the picture</h2>
+
+    <img
+        id="pics"
+        src="assets/pic1.jpg"
+        alt="First picture"
+    >
+
+    <script>
+        const image = document.getElementById("pics");
+        const heading = document.getElementById("heading");
+        const firstImage = "assets/pic1.jpg";
+        const secondImage = "assets/pic2.jpg";
+
+        let isFirstImage = true;
+
+        image.addEventListener("click", function() {
+            image.style.opacity = 1;
+
+            setTimeout(function() {
+                if (isFirstImage) {
+                    image.src = secondImage;
+                    image.alt = "Second picture";
+                    document.body.style.backgroundColor = "black";
+                    heading.style.color = "white";
+                } else {
+                    image.src = firstImage;
+                    image.alt = "First picture";
+                    document.body.style.backgroundColor = "#f4f4f4";
+                }
+
+                isFirstImage = !isFirstImage;
+                image.style.opacity = 1;
+            });
+        });
+    </script>
+
+</body>
+</html>
