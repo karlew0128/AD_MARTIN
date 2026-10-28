@@ -1,0 +1,76 @@
+import os
+import shutil
+import requests
+from datetime import datetime
+
+downloads = r"C:\Users\User\Downloads\Original"
+backups = r"C:\Users\User\Downloads\Backups"
+
+WEBHOOK_URL = "https://discordapp.com/api/webhooks/1564161936218791946/SHJZTbxdMRlMWPUwO006iG5dg5_4MIM__TuLrQFM_BG-oPzxkBs8EA_FwFRso0B2QhRS"
+
+
+def send_discord_notification(message):  2 usages
+    payload = {
+        "content": message,
+    }
+
+    response = requests.post(
+        WEBHOOK_URL,
+        json=payload,
+        timeout=10
+
+    )
+
+    response.raise_for_status()
+
+os.makedirs(backups, exist_ok=True)
+
+moved_count = 0
+
+for file in os.listdir(downloads):
+
+    source = os.path.join(downloads, file)
+
+    if os.path.isfile(source) and file.lower().endswith(".txt"):
+
+        destination = os.path.join(backups, file)
+
+        try:
+            shutil.move(source, destination)
+            moved_count += 1
+
+            event_time = datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
+
+            message =(
+                "FILE MOVED SUCCESSFULLY\n"
+                f"file: {file}\n"
+                f"From: {source}\n"
+                f"To: {destination}\n"
+                f"Time: {event_time}\n"
+                f"by: Surname, Firstname\n"
+            )
+
+            try:
+                send_discord_notification(message)
+                print(f"Discord notified: {file}")
+
+            except requests.RequestException as error:
+                print(f"File moved, but Discord notification failed: {error}")
+
+        expect OSError as error:
+            message = (
+                "FILE MOVED FAILED\n"
+                f"file: {file}\n"
+                f"From: {source}\n"
+                f"To: {destination}\n"
+                f"Error: {error}\n"
+            )
+
+            try:
+                send_discord_notification(message)
+            except requests.RequestException:
+                pass
+
+            print(f"Could not move {file}: {error}")
+
+print(f"Automation complete! Files moved: {moved_count}")
